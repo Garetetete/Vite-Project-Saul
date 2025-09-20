@@ -8,7 +8,8 @@ import { setupCounter } from './counter.ts'
 //import './Entregables/Entregable2.ts'
 //import './ejercicios/07-genericos.ts'
 //import './ejercicios/07-Funcion_Generica.ts'
-import './ejercicios/08-encadenamiento-opcion.ts'
+//import './ejercicios/08-encadenamiento-opcion.ts'
+import './ejercicios/08-ejercicio.ts'
 
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
