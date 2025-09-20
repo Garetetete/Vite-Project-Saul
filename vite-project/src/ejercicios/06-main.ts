@@ -1,12 +1,16 @@
 // main.ts
 
-import { describirPersona } from './06-procesador';
+import { describirCompra } from './06-procesador';
 import { type Persona } from './06-interfaces';
 
-const usuario: Persona = {
-  nombre: 'Ana',
-  edad: 28
+const cliente: Persona = {
+  nombre: 'Carlos',
+  edad: 35,
+  productos: [
+    { descripcion: 'Laptop', precio: 1200 },
+    { descripcion: 'Mouse', precio: 50 }
+  ]
 };
 
-const descripcion = describirPersona(usuario);
-console.log(descripcion);
+const mensaje = describirCompra(cliente);
+console.log(mensaje);

@@ -2,7 +2,8 @@
 
 import { type Persona } from './06-interfaces';
 
-// Función que toma un objeto Persona y devuelve un string con los datos
-export function describirPersona(persona: Persona): string {
-  return `Nombre: ${persona.nombre}, Edad: ${persona.edad}`;
+export function describirCompra(persona: Persona): string {
+  const total = persona.productos.reduce((suma, producto) => suma + producto.precio, 0);
+
+  return `${persona.nombre} (edad: ${persona.edad}) ha comprado ${persona.productos.length} producto(s) por un total de $${total}`;
 }
