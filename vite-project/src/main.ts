@@ -4,7 +4,11 @@ import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.ts'
 //import './ejercicios/04-desestructurador'
 //import './ejercicios/05-importaciones-exportaciones.ts'
-import './ejercicios/06-main.ts'
+//import './ejercicios/06-main.ts'
+//import './Entregables/Entregable2.ts'
+//import './ejercicios/07-genericos.ts'
+//import './ejercicios/07-Funcion_Generica.ts'
+import './ejercicios/08-encadenamiento-opcion.ts'
 
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
