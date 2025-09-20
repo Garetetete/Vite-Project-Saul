@@ -52,7 +52,7 @@ console.log(p3);
 
 ///////// -----------------------------------------------------
 
-interface Producto {
+export interface Producto {
   descripcion: string;
   precio: number;
 }
@@ -77,7 +77,7 @@ interface ImpuestosOption {
   propina: number; // ← esto debe ser un número, no un array
 }
 
-function calcularImpuesto(options: ImpuestosOption): number[] {
+export function calcularImpuesto(options: ImpuestosOption): number[] {
   let total = 0;
   options.productos.forEach(({ precio }) => {
     total += precio;
@@ -112,4 +112,4 @@ console.log("Total: " + TotalCompra);
 console.log("Total impuesto: " + totalImpuestoCompra);
 console.log("Propina: " + totalPropina);
 
-export {};
+
