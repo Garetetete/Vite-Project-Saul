@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-counter-page',
   standalone: true, // Recomendado para Angular moderno
-  templateUrl: './counter-page.component.html', // APUNTA AL ARCHIVO HTML
+  templateUrl: './counter-page.component.html', 
+  styleUrls: ['./counter-page.component.css'] 
+  // APUNTA AL ARCHIVO HTML
   // Si usas CSS específico, asegúrate de tener:
   // styleUrls: ['./counter-page.component.css'] 
 })
