@@ -1,0 +1,50 @@
+/* Estilos para el contenedor principal de la página (opcional) */
+:host {
+  display: block;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Estilos para los títulos */
+h1 {
+  color: #1e88e5; /* Un azul primario */
+  margin-bottom: 5px;
+}
+
+h2 {
+  font-size: 2em;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+/* Estilos para todos los botones */
+button {
+  /* Propiedades que aseguran la visibilidad y el diseño */
+  background-color: #4caf50; /* Un verde amigable */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 8px; /* Espacio horizontal entre botones */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+/* Estilo para el efecto al pasar el mouse */
+button:hover {
+  background-color: #388e3c; /* Un verde más oscuro al pasar el mouse */
+}
+
+/* Estilo específico para el botón de Reiniciar (para diferenciarlo) */
+/* Puedes aplicarle una clase 'btn-reset' en el HTML si lo prefieres, o usar :last-child */
+button:last-child { 
+  background-color: #f44336; /* Un rojo para el reset */
+}
+
+button:last-child:hover {
+  background-color: #d32f2f;
+}
