@@ -8,21 +8,15 @@ interface Character {
 }
 
 @Component({
-  selector: 'app-dragonball',
+  selector: 'app-dragonball-super',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './dragonball.component.html',
-  styleUrls: ['./dragonball.component.css']
+  templateUrl: './dragonball-super.component.html',
+  styleUrls: ['./dragonball-super.component.css']
 })
-export class DragonballComponent {
-  characters = signal<Character[]>([
-    { id: 1, name: 'Goku', power: 8008 },
-    { id: 2, name: 'Vegeta', power: 7500 },
-    { id: 3, name: 'Trunks', power: 6700 },
-    { id: 4, name: 'Tamcha', power: 700 },
-    { id: 5, name: 'Piccolo', power: 3500 },
-    { id: 6, name: 'Gohan', power: 9000 },
-  ]);
+export class DragonballSuperComponent {
+  // Lista vacía - sin personajes predefinidos
+  characters = signal<Character[]>([]);
 
   newName = '';
   newPower: number | null = null;

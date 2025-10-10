@@ -1,4 +1,4 @@
-<h1>Page - Dragonball</h1>
+<h1>Page - Dragon Ball Super</h1>
 <hr>
 <section class="row">
   <div class="col-12 col-sm-6">
@@ -11,7 +11,6 @@
   <div class="col-12 col-sm-6">
     <h3>Listado</h3>
     <ol>
-
         @for(character of characters(); track character.id){
             @if(character.power > 1000) {
                 <h3>{{ character.name}}</h3>
@@ -23,6 +22,8 @@
         }
     </ol>
 
-
+    @if(characters().length === 0) {
+        <p class="text-muted">No hay personajes agregados aún. ¡Agrega el primero!</p>
+    }
   </div>
 </section>
