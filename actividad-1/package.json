@@ -1,0 +1,19 @@
+{
+  "name": "actividad-1-typescript-basico",
+  "version": "1.0.0",
+  "description": "Funciones e Interfaces en TypeScript - Actividad 1",
+  "main": "funciones-interfaces.js",
+  "scripts": {
+    "build": "tsc funciones-interfaces.ts",
+    "start": "tsc funciones-interfaces.ts && node funciones-interfaces.js",
+    "dev": "ts-node funciones-interfaces.ts"
+  },
+  "keywords": ["typescript", "funciones", "interfaces"],
+  "author": "Saul",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
+

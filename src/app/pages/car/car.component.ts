@@ -10,7 +10,7 @@ import {UpperCasePipe} from '@angular/common';
 })
 export class CarComponent {
   brand = signal('Renault');
-  student = signal('Pepito perez - codigo');
+  student = signal('saul');
   year = signal(2020);
   
   // ✅ Corregido: Llamar a los signals como funciones (brand() y year())

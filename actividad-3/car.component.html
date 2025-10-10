@@ -1,0 +1,35 @@
+<h1>{{ brand() }}</h1>
+
+<dl>
+  <td>Marca:</td>
+  <dd>{{ brand() }}</dd>
+
+  <td>Año:</td>
+  <dd>{{ year() }}</dd>
+
+  <td>Descripción:</td>
+  <dd>{{getCarDescription() }}</dd>
+
+  <td>Estudiante:</td>
+  <dd>{{ student() }}</dd>
+
+  <td>Nombre en mayuscula:</td>
+  <dd>{{ student().toUpperCase() }}</dd>
+  <dd>{{ student() | uppercase }}</dd>
+  <dd></dd>
+</dl>
+
+<button (click)="changeCar()" class="btn btn-primary mx-2">
+  Cambiar carro
+</button>
+
+<button (click)="changeYear()" class="btn btn-success mx-2">
+  Cambiar año
+</button>
+
+<button (click)="resetForm()" class="btn btn-secondary mx-2">
+  Reset
+</button>
+
+
+

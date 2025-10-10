@@ -1,0 +1,21 @@
+{
+  "name": "actividad-2-sistema-comidas",
+  "version": "1.0.0",
+  "description": "Sistema de Comidas con TypeScript - Ejercicio 2",
+  "main": "sistema-comidas.js",
+  "scripts": {
+    "build": "tsc sistema-comidas.ts",
+    "start": "tsc sistema-comidas.ts && node sistema-comidas.js",
+    "dev": "ts-node sistema-comidas.ts"
+  },
+  "keywords": ["typescript", "poo", "interfaces"],
+  "author": "Saul",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  }
+}
+
+
+
