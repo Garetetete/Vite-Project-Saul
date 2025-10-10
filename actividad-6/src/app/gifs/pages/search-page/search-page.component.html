@@ -1,0 +1,70 @@
+<section class="py-5">
+  <!-- Barra de búsqueda -->
+  <div class="max-w-4xl mx-auto mb-8">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold text-slate-800 mb-4">🔍 Buscar GIFs</h2>
+      
+      <form (ngSubmit)="onSearch()" class="flex gap-3">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery"
+          name="searchQuery"
+          placeholder="Busca tus GIFs favoritos..."
+          class="flex-1 px-4 py-3 rounded-lg border-2 border-slate-300 focus:border-blue-500 focus:outline-none text-slate-800 text-lg"
+          autocomplete="off">
+        
+        <button 
+          type="submit"
+          class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg">
+          Buscar
+        </button>
+      </form>
+
+      <!-- Historial de búsqueda -->
+      @if (gifService.searchHistory().length > 0) {
+        <div class="mt-6">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-sm font-semibold text-slate-600">📜 Búsquedas recientes:</h3>
+            <button 
+              (click)="clearHistory()"
+              class="text-xs text-red-500 hover:text-red-700 font-medium">
+              Limpiar historial
+            </button>
+          </div>
+          
+          <div class="flex flex-wrap gap-2">
+            @for (query of gifService.searchHistory(); track query) {
+              <button
+                (click)="onSearchFromHistory(query)"
+                class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-full text-sm font-medium transition-colors duration-150 border border-slate-300">
+                {{ query }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Resultados de búsqueda -->
+  @if (gifService.searchGifs().length > 0) {
+    <div>
+      <h3 class="text-xl font-bold text-slate-800 mb-4 px-2">
+        📌 Resultados de búsqueda ({{ gifService.searchGifs().length }})
+      </h3>
+      <gif-list [gifs]="gifService.searchGifs()"/>
+    </div>
+  } @else if (searchQuery) {
+    <div class="text-center py-12">
+      <div class="text-6xl mb-4">🤔</div>
+      <p class="text-slate-600 text-lg">No se encontraron resultados para "{{ searchQuery }}"</p>
+      <p class="text-slate-500 mt-2">Intenta con otra búsqueda</p>
+    </div>
+  } @else {
+    <div class="text-center py-12">
+      <div class="text-6xl mb-4">🔎</div>
+      <p class="text-slate-600 text-lg font-medium">Busca tus GIFs favoritos</p>
+      <p class="text-slate-500 mt-2">Escribe algo en la barra de búsqueda para comenzar</p>
+    </div>
+  }
+</section>
