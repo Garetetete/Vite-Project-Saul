@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { RandomFactComponent } from './pages/cat-facts/random-fact/random-fact.component';
 import { FactsListComponent } from './pages/cat-facts/facts-list/facts-list.component';
 import { BreedsListComponent } from './pages/cat-facts/breeds-list/breeds-list.component';
-import { BreedExplorerComponent } from './pages/cat-facts/breed-explorer/breed-explorer.component';
 
 export const routes: Routes = [
     // Página principal - Hecho aleatorio
@@ -24,11 +23,6 @@ export const routes: Routes = [
     {
         path: 'breeds', 
         component: BreedsListComponent
-    },
-    // Ruta para explorador de razas
-    {
-        path: 'breed-explorer', 
-        component: BreedExplorerComponent
     },
     // Redirección de rutas no encontradas
     {

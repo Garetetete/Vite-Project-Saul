@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive  } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslationService } from '../../../services/translation.service';
 
 @Component({
@@ -24,4 +24,3 @@ export class Navbar {
     return this.translationService.translations();
   }
 }
-

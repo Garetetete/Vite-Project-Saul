@@ -25,6 +25,7 @@
                 class="form-control form-control-lg"
                 [placeholder]="t.searchPlaceholder"
                 [(ngModel)]="searchTerm"
+                (ngModelChange)="onSearch()"
                 [disabled]="loading()">
             </div>
             <div class="col-md-3">
@@ -35,7 +36,7 @@
               <select 
                 class="form-select form-select-lg"
                 [value]="itemsPerPage()"
-                (change)="changeItemsPerPage(+$any($event.target).value)"
+                (change)="changeItemsPerPage($event)"
                 [disabled]="loading()">
                 <option value="6">6</option>
                 <option value="12">12</option>
@@ -44,10 +45,10 @@
               </select>
             </div>
             <div class="col-md-3 text-md-end">
-              @if (breedsResponse()) {
+              @if (allBreeds().length > 0) {
                 <span class="badge bg-primary fs-6 px-3 py-2">
                   <i class="bi bi-info-circle me-1"></i>
-                  {{ t.total }}: {{ breedsResponse()?.total }} {{ t.totalBreeds }}
+                  {{ filteredBreeds().length }} {{ t.totalBreeds }}
                 </span>
               }
             </div>
@@ -55,7 +56,7 @@
         </div>
       </div>
 
-      @if (loading() || isTranslating()) {
+      @if (loading()) {
         <div class="text-center py-5">
           <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
             <span class="visually-hidden">{{ t.loading }}...</span>
@@ -67,51 +68,30 @@
           <i class="bi bi-exclamation-triangle-fill me-2"></i>
           {{ error() }}
         </div>
-      } @else if (translatedBreeds().length > 0 && filteredBreeds.length === 0) {
-        <div class="alert alert-info text-center" role="alert">
-          <i class="bi bi-search me-2"></i>
-          {{ t.noResults }}
-        </div>
-      } @else if (translatedBreeds().length > 0) {
+      } @else if (paginatedBreeds().length > 0) {
         <!-- Grid de razas -->
         <div class="row g-4 mb-4">
-          @for (breed of filteredBreeds; track breed.breed) {
-            <div class="col-lg-4 col-md-6">
-              <div class="card breed-card shadow-sm border-0 h-100">
-                <div class="card-header bg-gradient text-white">
-                  <h5 class="card-title mb-0 fw-bold">
-                    <i class="bi bi-star-fill me-2"></i>
+          @for (breed of paginatedBreeds(); track breed.breed) {
+            <div class="col-md-6 col-lg-4">
+              <div class="card shadow-sm border-0 h-100 breed-card">
+                <div class="card-body">
+                  <h5 class="card-title text-primary mb-3">
+                    <i class="bi bi-heart-fill me-2"></i>
                     {{ breed.breed }}
                   </h5>
-                </div>
-                <div class="card-body">
-                  <div class="breed-info mb-2">
-                    <div class="info-row">
-                      <i class="bi bi-flag-fill text-primary me-2"></i>
-                      <strong>{{ t.country }}</strong>
-                      <span>{{ breed.translatedCountry || breed.country }}</span>
-                    </div>
-                  </div>
-                  <div class="breed-info mb-2">
-                    <div class="info-row">
-                      <i class="bi bi-geo-alt-fill text-success me-2"></i>
-                      <strong>{{ t.origin }}</strong>
-                      <span>{{ breed.translatedOrigin || breed.origin }}</span>
-                    </div>
-                  </div>
-                  <div class="breed-info mb-2">
-                    <div class="info-row">
-                      <i class="bi bi-brush-fill text-warning me-2"></i>
-                      <strong>{{ t.coat }}</strong>
-                      <span>{{ breed.translatedCoat || breed.coat }}</span>
-                    </div>
-                  </div>
-                  <div class="breed-info">
-                    <div class="info-row">
-                      <i class="bi bi-palette-fill text-info me-2"></i>
-                      <strong>{{ t.pattern }}</strong>
-                      <span>{{ breed.translatedPattern || breed.pattern }}</span>
-                    </div>
+                  <div class="breed-details">
+                    <p class="mb-2">
+                      <strong>{{ t.country }}</strong> {{ breed.country }}
+                    </p>
+                    <p class="mb-2">
+                      <strong>{{ t.origin }}</strong> {{ breed.origin }}
+                    </p>
+                    <p class="mb-2">
+                      <strong>{{ t.coat }}</strong> {{ breed.coat }}
+                    </p>
+                    <p class="mb-0">
+                      <strong>{{ t.pattern }}</strong> {{ breed.pattern }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -120,32 +100,22 @@
         </div>
 
         <!-- Paginación -->
-        @if (totalPages > 1 && searchTerm() === '') {
-          <nav aria-label="Navegación de páginas">
+        @if (totalPages() > 1) {
+          <nav aria-label="Page navigation">
             <ul class="pagination pagination-lg justify-content-center">
               <li class="page-item" [class.disabled]="currentPage() === 1 || loading()">
-                <a class="page-link" (click)="currentPage() > 1 && changePage(currentPage() - 1)" href="javascript:void(0)">
+                <a class="page-link" (click)="previousPage()" href="javascript:void(0)">
                   <i class="bi bi-chevron-left"></i>
                   {{ t.previous }}
                 </a>
               </li>
               
-              @for (page of visiblePages; track page) {
-                @if (page === -1) {
-                  <li class="page-item disabled">
-                    <span class="page-link">...</span>
-                  </li>
-                } @else {
-                  <li class="page-item" [class.active]="page === currentPage()">
-                    <a class="page-link" (click)="changePage(page)" href="javascript:void(0)">
-                      {{ page }}
-                    </a>
-                  </li>
-                }
-              }
+              <li class="page-item" [class.active]="currentPage() === currentPage()">
+                <span class="page-link">{{ t.page }} {{ currentPage() }}</span>
+              </li>
               
-              <li class="page-item" [class.disabled]="currentPage() === totalPages || loading()">
-                <a class="page-link" (click)="currentPage() < totalPages && changePage(currentPage() + 1)" href="javascript:void(0)">
+              <li class="page-item" [class.disabled]="currentPage() === totalPages() || loading()">
+                <a class="page-link" (click)="nextPage()" href="javascript:void(0)">
                   {{ t.next }}
                   <i class="bi bi-chevron-right"></i>
                 </a>
@@ -154,9 +124,14 @@
           </nav>
 
           <div class="text-center text-muted mt-3">
-            {{ t.page }} {{ currentPage() }} {{ t.of }} {{ totalPages }}
+            {{ t.page }} {{ currentPage() }} {{ t.of }} {{ totalPages() }}
           </div>
         }
+      } @else {
+        <div class="alert alert-info" role="alert">
+          <i class="bi bi-info-circle me-2"></i>
+          {{ t.noResults }}
+        </div>
       }
     </div>
   </div>

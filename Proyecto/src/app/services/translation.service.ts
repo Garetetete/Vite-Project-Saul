@@ -17,8 +17,6 @@ export interface Translations {
   error: string;
   characters: string;
   getAnotherFact: string;
-  funFact: string;
-  funFactInfo: string;
 
   // Facts List Page
   factsListTitle: string;
@@ -45,16 +43,6 @@ export interface Translations {
   origin: string;
   coat: string;
   pattern: string;
-
-  // Breed Explorer Page
-  breedExplorerTitle: string;
-  breedExplorerSubtitle: string;
-  topCountry: string;
-  coatTypes: string;
-  patterns: string;
-  viewDetails: string;
-  close: string;
-  breedExplorer: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -73,8 +61,6 @@ const translations: Record<Language, Translations> = {
     error: 'Error al cargar el hecho. Por favor, intenta de nuevo.',
     characters: 'caracteres',
     getAnotherFact: 'Obtener Otro Hecho',
-    funFact: 'Dato Curioso',
-    funFactInfo: 'Los gatos son animales fascinantes con más de 10,000 años de historia junto a los humanos. Cada uno de estos datos te ayudará a conocer mejor a estos increíbles felinos.',
 
     // Facts List Page
     factsListTitle: 'Catálogo de Hechos sobre Gatos',
@@ -94,23 +80,13 @@ const translations: Record<Language, Translations> = {
     searchBreed: 'Buscar raza:',
     searchPlaceholder: 'Buscar por nombre, país, origen...',
     breedsPerPage: 'Razas por página:',
-    totalBreeds: 'Total de Razas',
+    totalBreeds: 'razas',
     loadingBreeds: 'Cargando razas...',
     noResults: 'No se encontraron razas que coincidan con tu búsqueda.',
-    country: 'País',
-    origin: 'Origen',
-    coat: 'Pelaje',
-    pattern: 'Patrón',
-
-    // Breed Explorer Page
-    breedExplorerTitle: 'Explorador de Razas Felinas',
-    breedExplorerSubtitle: 'Descubre todas las razas de gatos en un formato visual e interactivo',
-    topCountry: 'País Principal',
-    coatTypes: 'Tipos de Pelaje',
-    patterns: 'Patrones',
-    viewDetails: 'Ver Detalles',
-    close: 'Cerrar',
-    breedExplorer: 'Explorador de Razas',
+    country: 'País:',
+    origin: 'Origen:',
+    coat: 'Pelaje:',
+    pattern: 'Patrón:',
   },
   en: {
     // Navbar
@@ -127,8 +103,6 @@ const translations: Record<Language, Translations> = {
     error: 'Error loading fact. Please try again.',
     characters: 'characters',
     getAnotherFact: 'Get Another Fact',
-    funFact: 'Fun Fact',
-    funFactInfo: 'Cats are fascinating animals with over 10,000 years of history alongside humans. Each of these facts will help you better understand these incredible felines.',
 
     // Facts List Page
     factsListTitle: 'Cat Facts Catalog',
@@ -148,23 +122,13 @@ const translations: Record<Language, Translations> = {
     searchBreed: 'Search breed:',
     searchPlaceholder: 'Search by name, country, origin...',
     breedsPerPage: 'Breeds per page:',
-    totalBreeds: 'Total Breeds',
+    totalBreeds: 'breeds',
     loadingBreeds: 'Loading breeds...',
     noResults: 'No breeds found matching your search.',
-    country: 'Country',
-    origin: 'Origin',
-    coat: 'Coat',
-    pattern: 'Pattern',
-
-    // Breed Explorer Page
-    breedExplorerTitle: 'Feline Breeds Explorer',
-    breedExplorerSubtitle: 'Discover all cat breeds in a visual and interactive format',
-    topCountry: 'Top Country',
-    coatTypes: 'Coat Types',
-    patterns: 'Patterns',
-    viewDetails: 'View Details',
-    close: 'Close',
-    breedExplorer: 'Breed Explorer',
+    country: 'Country:',
+    origin: 'Origin:',
+    coat: 'Coat:',
+    pattern: 'Pattern:',
   }
 };
 
@@ -187,17 +151,12 @@ export class TranslationService {
   }
 
   private getStoredLanguage(): Language {
-    const stored = localStorage.getItem(this.STORAGE_KEY) as Language;
-    return stored || 'es'; // Español por defecto
+    const stored = localStorage.getItem(this.STORAGE_KEY);
+    return (stored === 'en' || stored === 'es') ? stored : 'es';
   }
 
   toggleLanguage(): void {
-    const newLang: Language = this.currentLanguage() === 'es' ? 'en' : 'es';
-    this.currentLanguage.set(newLang);
-  }
-
-  setLanguage(lang: Language): void {
-    this.currentLanguage.set(lang);
+    this.currentLanguage.update(lang => lang === 'es' ? 'en' : 'es');
   }
 
   t(key: keyof Translations): string {
