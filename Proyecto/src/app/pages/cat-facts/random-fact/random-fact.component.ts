@@ -4,6 +4,7 @@ import { CatFactsService } from '../../../services/cat-facts.service';
 import { CatFact } from '../../../models/cat-fact.model';
 import { TranslationService } from '../../../services/translation.service';
 import { ContentTranslationService } from '../../../services/content-translation.service';
+import { CatImagesService } from '../../../services/cat-images.service';
 
 @Component({
   selector: 'app-random-fact',
@@ -16,9 +17,11 @@ export class RandomFactComponent implements OnInit {
   private catFactsService = inject(CatFactsService);
   translationService = inject(TranslationService);
   private contentTranslation = inject(ContentTranslationService);
+  private catImagesService = inject(CatImagesService);
   
   fact = signal<CatFact | null>(null);
   translatedFact = signal<string>('');
+  catImage = signal<string>('');
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
@@ -45,6 +48,16 @@ export class RandomFactComponent implements OnInit {
   loadRandomFact(): void {
     this.loading.set(true);
     this.error.set(null);
+    
+    // Cargar imagen aleatoria
+    this.catImagesService.getRandomImage().subscribe({
+      next: (imageUrl) => {
+        this.catImage.set(imageUrl);
+      },
+      error: (err) => {
+        console.error('Error loading cat image:', err);
+      }
+    });
     
     this.catFactsService.getRandomFact().subscribe({
       next: (data) => {

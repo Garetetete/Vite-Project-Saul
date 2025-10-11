@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CatFactsService } from '../../../services/cat-facts.service';
 import { CatFactsResponse } from '../../../models/cat-fact.model';
 import { TranslationService } from '../../../services/translation.service';
+import { CatImagesService } from '../../../services/cat-images.service';
 
 @Component({
   selector: 'app-facts-list',
@@ -14,8 +15,10 @@ import { TranslationService } from '../../../services/translation.service';
 export class FactsListComponent implements OnInit {
   private catFactsService = inject(CatFactsService);
   translationService = inject(TranslationService);
+  private catImagesService = inject(CatImagesService);
   
   factsResponse = signal<CatFactsResponse | null>(null);
+  catImages = signal<string[]>([]);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
   currentPage = signal<number>(1);
@@ -23,6 +26,18 @@ export class FactsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFacts();
+    this.loadCatImages();
+  }
+
+  loadCatImages(): void {
+    this.catImagesService.getMultipleImages(3).subscribe({
+      next: (images) => {
+        this.catImages.set(images);
+      },
+      error: (err) => {
+        console.error('Error loading cat images:', err);
+      }
+    });
   }
 
   loadFacts(): void {

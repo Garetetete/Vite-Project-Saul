@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CatFactsService } from '../../../services/cat-facts.service';
 import { CatBreedsResponse, CatBreed } from '../../../models/cat-breed.model';
 import { TranslationService } from '../../../services/translation.service';
+import { CatImagesService } from '../../../services/cat-images.service';
 
 @Component({
   selector: 'app-breeds-list',
@@ -15,8 +16,10 @@ import { TranslationService } from '../../../services/translation.service';
 export class BreedsListComponent implements OnInit {
   private catFactsService = inject(CatFactsService);
   translationService = inject(TranslationService);
+  private catImagesService = inject(CatImagesService);
   
   allBreeds = signal<CatBreed[]>([]);
+  catImages = signal<string[]>([]);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
   currentPage = signal<number>(1);
@@ -53,6 +56,18 @@ export class BreedsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBreeds();
+    this.loadCatImages();
+  }
+
+  loadCatImages(): void {
+    this.catImagesService.getMultipleImages(3).subscribe({
+      next: (images) => {
+        this.catImages.set(images);
+      },
+      error: (err) => {
+        console.error('Error loading cat images:', err);
+      }
+    });
   }
 
   loadBreeds(): void {

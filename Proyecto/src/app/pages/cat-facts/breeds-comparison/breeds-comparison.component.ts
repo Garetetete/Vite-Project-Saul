@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CatFactsService } from '../../../services/cat-facts.service';
 import { CatBreed } from '../../../models/cat-breed.model';
 import { TranslationService } from '../../../services/translation.service';
-import { ContentTranslationService } from '../../../services/content-translation.service';
+import { CatImagesService } from '../../../services/cat-images.service';
 
 @Component({
   selector: 'app-breeds-comparison',
@@ -16,7 +16,7 @@ import { ContentTranslationService } from '../../../services/content-translation
 export class BreedsComparisonComponent implements OnInit {
   private catFactsService = inject(CatFactsService);
   translationService = inject(TranslationService);
-  private contentTranslation = inject(ContentTranslationService);
+  private catImagesService = inject(CatImagesService);
   
   allBreeds = signal<CatBreed[]>([]);
   loading = signal<boolean>(false);
@@ -24,15 +24,34 @@ export class BreedsComparisonComponent implements OnInit {
   
   selectedBreedLeft = signal<string>('');
   selectedBreedRight = signal<string>('');
+  countryFilter = signal<string>('');
+  
+  catImageLeft = signal<string>('');
+  catImageRight = signal<string>('');
+  
+  // Lista única de países para el filtro
+  uniqueCountries = computed(() => {
+    const countries = this.allBreeds().map(b => b.country);
+    return ['All', ...Array.from(new Set(countries)).sort()];
+  });
+  
+  // Breeds filtradas por país
+  filteredBreeds = computed(() => {
+    const filter = this.countryFilter();
+    if (!filter || filter === 'All') {
+      return this.allBreeds();
+    }
+    return this.allBreeds().filter(b => b.country === filter);
+  });
   
   breedLeft = computed(() => {
     const selected = this.selectedBreedLeft();
-    return this.allBreeds().find(b => b.breed === selected) || null;
+    return this.filteredBreeds().find(b => b.breed === selected) || null;
   });
   
   breedRight = computed(() => {
     const selected = this.selectedBreedRight();
-    return this.allBreeds().find(b => b.breed === selected) || null;
+    return this.filteredBreeds().find(b => b.breed === selected) || null;
   });
   
   showComparison = computed(() => {
@@ -41,6 +60,7 @@ export class BreedsComparisonComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBreeds();
+    this.loadImages();
   }
 
   loadBreeds(): void {
@@ -65,6 +85,45 @@ export class BreedsComparisonComponent implements OnInit {
         console.error('Error loading breeds:', err);
       }
     });
+  }
+
+  loadImages(): void {
+    // Cargar imagen para la izquierda
+    this.catImagesService.getRandomImage().subscribe({
+      next: (imageUrl) => {
+        this.catImageLeft.set(imageUrl);
+      },
+      error: (err) => {
+        console.error('Error loading left cat image:', err);
+      }
+    });
+
+    // Cargar imagen para la derecha
+    this.catImagesService.getRandomImage().subscribe({
+      next: (imageUrl) => {
+        this.catImageRight.set(imageUrl);
+      },
+      error: (err) => {
+        console.error('Error loading right cat image:', err);
+      }
+    });
+  }
+
+  onCountryFilterChange(): void {
+    // Resetear selecciones cuando cambia el filtro
+    const filtered = this.filteredBreeds();
+    if (filtered.length >= 2) {
+      this.selectedBreedLeft.set(filtered[0].breed);
+      this.selectedBreedRight.set(filtered[1].breed);
+    } else if (filtered.length === 1) {
+      this.selectedBreedLeft.set(filtered[0].breed);
+      this.selectedBreedRight.set('');
+    } else {
+      this.selectedBreedLeft.set('');
+      this.selectedBreedRight.set('');
+    }
+    // Recargar imágenes cuando cambia el filtro
+    this.loadImages();
   }
 
   compareField(field: 'country' | 'origin' | 'coat' | 'pattern'): 'same' | 'different' {

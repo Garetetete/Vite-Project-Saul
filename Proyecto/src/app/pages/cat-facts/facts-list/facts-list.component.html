@@ -11,6 +11,21 @@
         </p>
       </div>
 
+      <!-- Galería de imágenes de gatos -->
+      @if (catImages().length > 0) {
+        <div class="row g-3 mb-5">
+          @for (image of catImages(); track image) {
+            <div class="col-md-4">
+              <img 
+                [src]="image" 
+                alt="Cat" 
+                class="img-fluid rounded-3 shadow cat-gallery-image"
+                style="height: 250px; width: 100%; object-fit: cover;">
+            </div>
+          }
+        </div>
+      }
+
       <!-- Control de items por página -->
       <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">

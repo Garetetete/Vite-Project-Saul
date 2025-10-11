@@ -50,6 +50,7 @@ export interface Translations {
   comparisonSubtitle: string;
   selectBreed: string;
   comparisonInfo: string;
+  filterByCountry: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -101,6 +102,7 @@ const translations: Record<Language, Translations> = {
     comparisonSubtitle: 'Compara dos razas de gatos lado a lado y descubre sus similitudes y diferencias',
     selectBreed: 'Selecciona una raza',
     comparisonInfo: 'Los campos con check verde indican características idénticas entre ambas razas',
+    filterByCountry: 'Filtrar por País',
   },
   en: {
     // Navbar
@@ -150,6 +152,7 @@ const translations: Record<Language, Translations> = {
     comparisonSubtitle: 'Compare two cat breeds side by side and discover their similarities and differences',
     selectBreed: 'Select a breed',
     comparisonInfo: 'Fields with green check marks indicate identical characteristics between both breeds',
+    filterByCountry: 'Filter by Country',
   }
 };
 
