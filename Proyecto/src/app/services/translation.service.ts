@@ -43,6 +43,13 @@ export interface Translations {
   origin: string;
   coat: string;
   pattern: string;
+
+  // Breeds Comparison Page
+  comparison: string;
+  comparisonTitle: string;
+  comparisonSubtitle: string;
+  selectBreed: string;
+  comparisonInfo: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -87,6 +94,13 @@ const translations: Record<Language, Translations> = {
     origin: 'Origen:',
     coat: 'Pelaje:',
     pattern: 'Patrón:',
+
+    // Breeds Comparison Page
+    comparison: 'Comparador',
+    comparisonTitle: 'Comparador de Razas',
+    comparisonSubtitle: 'Compara dos razas de gatos lado a lado y descubre sus similitudes y diferencias',
+    selectBreed: 'Selecciona una raza',
+    comparisonInfo: 'Los campos con check verde indican características idénticas entre ambas razas',
   },
   en: {
     // Navbar
@@ -129,6 +143,13 @@ const translations: Record<Language, Translations> = {
     origin: 'Origin:',
     coat: 'Coat:',
     pattern: 'Pattern:',
+
+    // Breeds Comparison Page
+    comparison: 'Comparison',
+    comparisonTitle: 'Breeds Comparison',
+    comparisonSubtitle: 'Compare two cat breeds side by side and discover their similarities and differences',
+    selectBreed: 'Select a breed',
+    comparisonInfo: 'Fields with green check marks indicate identical characteristics between both breeds',
   }
 };
 

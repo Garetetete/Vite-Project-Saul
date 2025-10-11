@@ -1,0 +1,180 @@
+/* VS Badge */
+.comparison-vs {
+  position: relative;
+  margin: 2rem 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Breed Cards */
+.breed-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.breed-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.left-breed .breed-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  color: white;
+}
+
+.right-breed .breed-card-header {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  padding: 2rem;
+  color: white;
+}
+
+.breed-name {
+  font-size: 1.75rem;
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.breed-card-body {
+  padding: 0;
+}
+
+/* Comparison Items */
+.comparison-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.comparison-item:last-child {
+  border-bottom: none;
+}
+
+.comparison-item:hover {
+  background: #f8f9fa;
+}
+
+.comparison-item.match {
+  background: linear-gradient(to right, #d4edda 0%, #c3e6cb 100%);
+  border-left: 4px solid #28a745;
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.item-label i {
+  font-size: 1.2rem;
+}
+
+.item-value {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #212529;
+  padding-left: 1.7rem;
+}
+
+.match-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.5rem;
+  animation: checkmark 0.5s ease;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
+}
+
+/* Selectores */
+.form-select {
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+.bg-primary.bg-opacity-10 {
+  border-left: 4px solid var(--bs-primary);
+}
+
+.bg-success.bg-opacity-10 {
+  border-left: 4px solid var(--bs-success);
+}
+
+/* Animación de entrada */
+.breed-card {
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .breed-name {
+    font-size: 1.5rem;
+  }
+  
+  .item-value {
+    font-size: 1.1rem;
+  }
+  
+  .comparison-vs {
+    margin: 1rem 0;
+  }
+  
+  .match-icon {
+    font-size: 1.2rem;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* Loading state */
+.spinner-border {
+  animation: spinner-border 0.75s linear infinite;
+}
+

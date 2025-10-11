@@ -28,6 +28,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="/breeds-comparison" routerLinkActive="active">
+            <i class="bi bi-arrows-angle-contract me-1"></i>
+            {{ t.comparison }}
+          </a>
+        </li>
+        <li class="nav-item">
           <button 
             class="btn btn-outline-light btn-sm language-btn" 
             (click)="toggleLanguage()"
