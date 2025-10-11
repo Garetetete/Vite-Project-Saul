@@ -1,0 +1,45 @@
+.fact-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.fact-card:hover {
+  transform: translateX(5px);
+  border-left-color: var(--bs-primary);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.fact-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--bs-primary), var(--bs-info));
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.page-item.disabled .page-link {
+  cursor: not-allowed;
+}
+
+.pagination-lg .page-link {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .fact-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
