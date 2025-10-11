@@ -1,7 +1,7 @@
 # 🐱 Cat Facts App - Proyecto Final
 
 ## 👥 Integrantes del Grupo
-- **Saúl** (Nombre completo del estudiante)
+- **Saul Eduardo Cordoba**
 
 ## 📋 Descripción General del Proyecto
 
@@ -29,11 +29,14 @@ Vite-Project-Saul/
 │   │   │   └── cat-breed.model.ts  # Modelo para razas de gatos
 │   │   ├── pages/
 │   │   │   └── cat-facts/
-│   │   │       ├── random-fact/    # Página de hecho aleatorio
-│   │   │       ├── facts-list/     # Página de lista de hechos
-│   │   │       └── breeds-list/    # Página de razas
+│   │   │       ├── random-fact/      # Página de hecho aleatorio
+│   │   │       ├── facts-list/       # Página de lista de hechos
+│   │   │       ├── breeds-list/      # Página de tabla de razas
+│   │   │       └── breed-explorer/   # Página de explorador visual de razas
 │   │   ├── services/
-│   │   │   └── cat-facts.service.ts # Servicio para consumir la API
+│   │   │   ├── cat-facts.service.ts            # Servicio para consumir la API
+│   │   │   ├── translation.service.ts          # Servicio de traducción de UI
+│   │   │   └── content-translation.service.ts  # Servicio de traducción de contenido
 │   │   ├── app.config.ts           # Configuración de la aplicación
 │   │   ├── app.routes.ts           # Configuración de rutas
 │   │   └── app.ts                  # Componente raíz
@@ -66,9 +69,9 @@ Vite-Project-Saul/
 - Numeración automática de los hechos
 - Indicador del total de hechos disponibles
 
-### 3. 🐈 Razas de Gatos del Mundo
+### 3. 🐈 Razas de Gatos del Mundo (Tabla)
 - **Endpoint**: `GET https://catfact.ninja/breeds?limit={limit}&page={page}`
-- Catálogo visual de razas de gatos en formato de tarjetas
+- Catálogo de razas de gatos en formato de tabla
 - Información detallada de cada raza:
   - Nombre de la raza
   - País de origen
@@ -76,11 +79,39 @@ Vite-Project-Saul/
   - Tipo de pelaje
   - Patrón de color
 - Búsqueda en tiempo real por cualquier campo
-- Control de cantidad de razas por página (6, 12, 18, 24)
+- Control de cantidad de razas por página (10, 15, 20, 25)
 - Paginación avanzada
-- Diseño en grid responsive
+- Diseño responsive
 
-### 4. 🎨 Características Adicionales
+### 4. 🎴 Explorador Visual de Razas (NUEVO)
+- **Endpoint**: `GET https://catfact.ninja/breeds?limit=98`
+- Presenta TODAS las razas en un formato visual de tarjetas interactivas
+- Panel de estadísticas con:
+  - Total de razas
+  - País con más razas
+  - Cantidad de tipos de pelaje
+  - Cantidad de patrones
+- Tarjetas con efecto hover y animaciones
+- Modal de detalle al hacer clic en una raza
+- Grid completamente responsive
+- Estadísticas calculadas en tiempo real con Signals
+
+### 5. 🌐 Sistema de Traducción Bilingüe (ES/EN)
+- **Idiomas**: Español (por defecto) e Inglés
+- Botón de cambio de idioma en el navbar
+- Traducción completa de la interfaz de usuario
+- **Traducción automática del contenido de la API**:
+  - Hechos sobre gatos traducidos
+  - Información de razas traducida (países, orígenes, pelajes, patrones)
+- Sistema inteligente de traducción con:
+  - Diccionario pre-cargado con 150+ términos comunes
+  - Traducción palabra por palabra
+  - API de traducción como respaldo
+  - Funciona incluso sin conexión a internet
+- Persistencia del idioma seleccionado en localStorage
+- Re-traducción automática al cambiar idioma
+
+### 6. 🎨 Características Adicionales
 - Diseño moderno y profesional con Bootstrap 5
 - Iconos de Bootstrap Icons
 - Navbar responsive con menú hamburguesa en móviles
@@ -91,13 +122,17 @@ Vite-Project-Saul/
 
 ## 🔌 Consumo de APIs
 
-El proyecto consume **3 servicios diferentes** de la API Cat Facts:
+El proyecto consume **3 servicios diferentes** de la API Cat Facts en **4 páginas distintas**:
 
-| Servicio | Método | Endpoint | Descripción | Parámetros |
-|----------|--------|----------|-------------|------------|
-| Random Fact | GET | `/fact` | Obtiene un hecho aleatorio | Ninguno |
-| Facts List | GET | `/facts` | Obtiene lista paginada de hechos | `limit`, `page` |
-| Breeds List | GET | `/breeds` | Obtiene lista paginada de razas | `limit`, `page` |
+| Servicio | Método | Endpoint | Descripción | Usado en | Parámetros |
+|----------|--------|----------|-------------|----------|------------|
+| Random Fact | GET | `/fact` | Obtiene un hecho aleatorio | Random Fact | Ninguno |
+| Facts List | GET | `/facts` | Obtiene lista paginada de hechos | Facts List | `limit`, `page` |
+| Breeds List | GET | `/breeds` | Obtiene lista paginada de razas | Cat Breeds + Breed Explorer | `limit`, `page` |
+
+**Nota**: El endpoint `/breeds` se utiliza en 2 páginas diferentes con enfoques distintos:
+- **Cat Breeds**: Vista de tabla con búsqueda y paginación personalizada
+- **Breed Explorer**: Vista de tarjetas mostrando TODAS las razas con estadísticas
 
 ### Implementación del Servicio
 
@@ -205,18 +240,21 @@ El archivo `netlify.toml` incluye:
 ## 🛠️ Tecnologías y Conceptos Aplicados
 
 ### Temas Vistos en Clase
-- ✅ **Angular Framework**: Uso de componentes standalone modernos
+- ✅ **Angular Framework**: Uso de componentes standalone modernos (Angular 20)
 - ✅ **TypeScript**: Tipado fuerte con interfaces y modelos
-- ✅ **Reactive Programming**: Uso de RxJS y Observables
-- ✅ **HTTP Client**: Consumo de APIs REST
+- ✅ **Reactive Programming**: Uso de RxJS (Observables, forkJoin, timeout, catchError)
+- ✅ **HTTP Client**: Consumo de APIs REST con provideHttpClient
 - ✅ **Routing**: Navegación entre páginas con Angular Router
-- ✅ **Signals**: Uso de la nueva API de signals de Angular
+- ✅ **Signals**: Uso de la nueva API de signals y computed signals
+- ✅ **Effects**: Effects para re-traducción automática
 - ✅ **Forms**: Two-way data binding con FormsModule
 - ✅ **Dependency Injection**: Inyección de servicios
 - ✅ **Directivas**: Uso de directivas estructurales (@if, @for)
 - ✅ **Pipes**: Transformación de datos en templates
 - ✅ **CSS/Bootstrap**: Diseño responsive y moderno
-- ✅ **Git**: Control de versiones
+- ✅ **Internacionalización (i18n)**: Sistema de traducción completo
+- ✅ **LocalStorage**: Persistencia de preferencias del usuario
+- ✅ **Git**: Control de versiones con múltiples ramas
 
 ### Buenas Prácticas Implementadas
 - Arquitectura modular y escalable
@@ -308,8 +346,9 @@ Durante el desarrollo de este proyecto se utilizó asistencia de IA (Cursor/Clau
 
 ## 🔗 Enlaces Útiles
 
-- **Repositorio**: [URL del repositorio]
-- **Sitio en Netlify**: [URL de producción]
+- **Repositorio**: https://github.com/Garetetete/Vite-Project-Saul
+- **Rama del Proyecto**: `proyecto`
+- **Sitio en Netlify**: [Próximamente - Listo para despliegue]
 - **API Documentation**: https://catfact.ninja/
 - **Angular Docs**: https://angular.dev/
 - **Bootstrap Docs**: https://getbootstrap.com/
@@ -317,23 +356,60 @@ Durante el desarrollo de este proyecto se utilizó asistencia de IA (Cursor/Clau
 ## 📞 Contacto
 
 Para cualquier duda o consulta sobre el proyecto:
-- **Email**: [email del estudiante]
-- **GitHub**: [usuario de GitHub]
+- **Nombre**: Saul Eduardo Cordoba
+- **Email**: sauleduardo1111@gmail.com
+- **GitHub**: [@Garetetete](https://github.com/Garetetete)
+- **Universidad**: Universidad de los Llanos
 
 ---
 
 ## 🏆 Criterios de Evaluación Cumplidos
 
-| Criterio | Estado | Detalles |
-|----------|--------|----------|
-| Estructura del proyecto | ✅ | Código organizado, modular y limpio |
-| Consumo de APIs | ✅ | 3 endpoints implementados correctamente |
-| Explicación del proyecto | ✅ | Documentación completa y código comentado |
-| Temas vistos | ✅ | Angular, TypeScript, HTTP, Routing, Forms, etc. |
-| Originalidad y valor agregado | ✅ | Diseño moderno, búsqueda, paginación avanzada |
+| Criterio | Ponderación | Estado | Detalles |
+|----------|-------------|--------|----------|
+| **Estructura del proyecto** | 20% | ✅ | Código organizado, modular y limpio con separación clara de responsabilidades |
+| **Consumo de APIs** | 25% | ✅ | 3 endpoints implementados correctamente en 4 páginas diferentes |
+| **Explicación del proyecto** | 25% | ✅ | Documentación completa, código comentado y bien estructurado |
+| **Abarcar temas vistos** | 15% | ✅ | Angular 20, TypeScript, RxJS, Signals, Effects, HTTP, Routing, Forms, i18n |
+| **Originalidad y valor agregado** | 15% | ✅ | Sistema de traducción inteligente bilingüe, 4 páginas, estadísticas dinámicas, diseño moderno |
+
+### 🌟 Valor Agregado Destacable
+
+1. **Sistema de Traducción Bilingüe Completo**
+   - Traducción de UI y contenido de la API
+   - Diccionario pre-cargado con 150+ términos
+   - Funciona sin API externa gracias al sistema de fallback
+   - Persistencia de idioma seleccionado
+
+2. **4 Páginas con Enfoques Diferentes**
+   - Mismo endpoint usado de 2 formas distintas (tabla y tarjetas)
+   - Cada página con funcionalidad única y valor propio
+
+3. **Estadísticas en Tiempo Real**
+   - Uso avanzado de Computed Signals
+   - Cálculos dinámicos sin re-renders innecesarios
+
+4. **Documentación Extensa**
+   - README completo con todos los detalles
+   - DEPLOYMENT.md para instrucciones de despliegue
+   - GUIA-RAPIDA.md para referencia rápida
+   - TRADUCCION.md explicando el sistema de i18n
+   - PAGINAS.md documentando cada página
 
 ---
 
-**Desarrollado con ❤️ y ☕ por Saúl**
+**Desarrollado con ❤️ y ☕ por Saul Eduardo Cordoba**
 
 *Proyecto Final - Universidad de los Llanos - 2025*
+
+---
+
+### 📚 Documentación Adicional
+
+Este proyecto incluye documentación detallada en los siguientes archivos dentro de la carpeta `documentacion/`:
+- **`README.md`** (este archivo): Descripción general del proyecto
+- **`documentacion/DEPLOYMENT.md`**: Guía paso a paso para despliegue en Netlify
+- **`documentacion/GUIA-RAPIDA.md`**: Referencia rápida de comandos y funcionalidades
+- **`documentacion/TRADUCCION.md`**: Explicación técnica del sistema de traducción
+- **`documentacion/PAGINAS.md`**: Detalle de las 4 páginas y uso de endpoints
+- **`documentacion/LEEME-PRIMERO.txt`**: Resumen rápido del proyecto
