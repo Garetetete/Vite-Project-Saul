@@ -29,14 +29,15 @@ Vite-Project-Saul/
 │   │   │   └── cat-breed.model.ts  # Modelo para razas de gatos
 │   │   ├── pages/
 │   │   │   └── cat-facts/
-│   │   │       ├── random-fact/      # Página de hecho aleatorio
-│   │   │       ├── facts-list/       # Página de lista de hechos
-│   │   │       ├── breeds-list/      # Página de tabla de razas
-│   │   │       └── breed-explorer/   # Página de explorador visual de razas
+│   │   │       ├── random-fact/          # Página de hecho aleatorio
+│   │   │       ├── facts-list/           # Página de lista de hechos
+│   │   │       ├── breeds-list/          # Página de catálogo de razas
+│   │   │       └── breeds-comparison/    # Página de comparador de razas
 │   │   ├── services/
-│   │   │   ├── cat-facts.service.ts            # Servicio para consumir la API
+│   │   │   ├── cat-facts.service.ts            # Servicio para consumir Cat Facts API
+│   │   │   ├── cat-images.service.ts           # Servicio para consumir The Cat API (imágenes)
 │   │   │   ├── translation.service.ts          # Servicio de traducción de UI
-│   │   │   └── content-translation.service.ts  # Servicio de traducción de contenido
+│   │   │   └── content-translation.service.ts  # Servicio de traducción de contenido API
 │   │   ├── app.config.ts           # Configuración de la aplicación
 │   │   ├── app.routes.ts           # Configuración de rutas
 │   │   └── app.ts                  # Componente raíz
@@ -55,59 +56,69 @@ Vite-Project-Saul/
 ## ✨ Funcionalidades Principales
 
 ### 1. 🎲 Hecho Aleatorio sobre Gatos
-- **Endpoint**: `GET https://catfact.ninja/fact`
-- Muestra un hecho aleatorio sobre gatos
+- **Endpoint Hechos**: `GET https://catfact.ninja/fact`
+- **Endpoint Imágenes**: `GET https://api.thecatapi.com/v1/images/search`
+- Muestra un hecho aleatorio sobre gatos con imagen
+- Imagen de gato diferente para cada hecho
 - Botón para generar un nuevo hecho
 - Indica la longitud del texto
 - Animaciones suaves al cargar nuevo contenido
 
 ### 2. 📚 Catálogo de Hechos sobre Gatos
-- **Endpoint**: `GET https://catfact.ninja/facts?limit={limit}&page={page}`
+- **Endpoint Hechos**: `GET https://catfact.ninja/facts?limit={limit}&page={page}`
+- **Endpoint Imágenes**: `GET https://api.thecatapi.com/v1/images/search?limit=3`
 - Lista paginada de hechos sobre gatos
+- Galería de 3 imágenes de gatos al inicio de la página
 - Control de cantidad de elementos por página (5, 10, 15, 20)
 - Navegación por páginas con indicadores visuales
 - Numeración automática de los hechos
 - Indicador del total de hechos disponibles
 
-### 3. 🐈 Razas de Gatos del Mundo (Tabla)
+### 3. 🐈 Razas de Gatos del Mundo
 - **Endpoint**: `GET https://catfact.ninja/breeds?limit={limit}&page={page}`
-- Catálogo de razas de gatos en formato de tabla
+- **Imágenes**: `GET https://api.thecatapi.com/v1/images/search?limit=3`
+- Catálogo de razas de gatos con galería de imágenes
 - Información detallada de cada raza:
   - Nombre de la raza
   - País de origen
   - Tipo de origen (Natural/Standard)
   - Tipo de pelaje
   - Patrón de color
+- Galería de 3 imágenes aleatorias de gatos reales
 - Búsqueda en tiempo real por cualquier campo
-- Control de cantidad de razas por página (10, 15, 20, 25)
+- Control de cantidad de razas por página (6, 12, 18, 24)
 - Paginación avanzada
 - Diseño responsive
 
-### 4. 🎴 Explorador Visual de Razas (NUEVO)
-- **Endpoint**: `GET https://catfact.ninja/breeds?limit=98`
-- Presenta TODAS las razas en un formato visual de tarjetas interactivas
-- Panel de estadísticas con:
-  - Total de razas
-  - País con más razas
-  - Cantidad de tipos de pelaje
-  - Cantidad de patrones
-- Tarjetas con efecto hover y animaciones
-- Modal de detalle al hacer clic en una raza
-- Grid completamente responsive
-- Estadísticas calculadas en tiempo real con Signals
+### 4. ⚖️ Comparador de Razas (NUEVO)
+- **Endpoint Cat Facts**: `GET https://catfact.ninja/breeds?limit=100`
+- **Endpoint Imágenes**: `GET https://api.thecatapi.com/v1/images/search`
+- Compara dos razas de gatos lado a lado
+- **Filtro por País**:
+  - Dropdown con lista de países únicos
+  - Filtra dinámicamente las razas disponibles
+  - Actualiza automáticamente las selecciones
+- **Imágenes individuales**:
+  - Una imagen diferente para cada raza
+  - Se actualizan al cambiar el filtro
+- **Comparación visual**:
+  - País, Origen, Pelaje y Patrón
+  - Indicadores verdes (✓) para características idénticas
+  - Cards con gradientes de colores vibrantes
+  - Badge "VS" animado
+- Diseño responsive y completamente interactivo
 
 ### 5. 🌐 Sistema de Traducción Bilingüe (ES/EN)
+- **API de Traducción**: `GET https://api.mymemory.translated.net/get` (MyMemory)
 - **Idiomas**: Español (por defecto) e Inglés
 - Botón de cambio de idioma en el navbar
 - Traducción completa de la interfaz de usuario
-- **Traducción automática del contenido de la API**:
-  - Hechos sobre gatos traducidos
+- **Traducción automática del contenido de la API** (si está disponible):
+  - Hechos sobre gatos traducidos al español
   - Información de razas traducida (países, orígenes, pelajes, patrones)
-- Sistema inteligente de traducción con:
-  - Diccionario pre-cargado con 150+ términos comunes
-  - Traducción palabra por palabra
-  - API de traducción como respaldo
-  - Funciona incluso sin conexión a internet
+  - Fallback al contenido original en inglés si la traducción falla
+- Sistema con caché para evitar traducciones repetidas
+- Timeout de 3 segundos para respuestas rápidas
 - Persistencia del idioma seleccionado en localStorage
 - Re-traducción automática al cambiar idioma
 
@@ -122,19 +133,30 @@ Vite-Project-Saul/
 
 ## 🔌 Consumo de APIs
 
-El proyecto consume **3 servicios diferentes** de la API Cat Facts en **4 páginas distintas**:
+El proyecto consume **4 APIs diferentes** en **4 páginas distintas**:
 
+### 📋 API Cat Facts (https://catfact.ninja)
 | Servicio | Método | Endpoint | Descripción | Usado en | Parámetros |
 |----------|--------|----------|-------------|----------|------------|
 | Random Fact | GET | `/fact` | Obtiene un hecho aleatorio | Random Fact | Ninguno |
 | Facts List | GET | `/facts` | Obtiene lista paginada de hechos | Facts List | `limit`, `page` |
-| Breeds List | GET | `/breeds` | Obtiene lista paginada de razas | Cat Breeds + Breed Explorer | `limit`, `page` |
+| Breeds List | GET | `/breeds` | Obtiene lista paginada de razas | Cat Breeds + Breeds Comparison | `limit`, `page` |
 
-**Nota**: El endpoint `/breeds` se utiliza en 2 páginas diferentes con enfoques distintos:
-- **Cat Breeds**: Vista de tabla con búsqueda y paginación personalizada
-- **Breed Explorer**: Vista de tarjetas mostrando TODAS las razas con estadísticas
+### 🖼️ The Cat API (https://api.thecatapi.com)
+| Servicio | Método | Endpoint | Descripción | Usado en | Parámetros |
+|----------|--------|----------|-------------|----------|------------|
+| Cat Images | GET | `/v1/images/search` | Obtiene imágenes aleatorias de gatos | Todas las páginas | `limit` |
 
-### Implementación del Servicio
+**Nota**: Las imágenes de gatos se obtienen de The Cat API, una API gratuita que proporciona imágenes reales de gatos de alta calidad.
+
+### 🌐 MyMemory Translation API (https://api.mymemory.translated.net)
+| Servicio | Método | Endpoint | Descripción | Parámetros |
+|----------|--------|----------|-------------|------------|
+| Translate | GET | `/get` | Traduce texto de inglés a español | `q` (texto), `langpair` (en\|es) |
+
+**Nota**: Se utiliza para traducir el contenido de la API (hechos y datos de razas) cuando el idioma seleccionado es español.
+
+### Implementación de los Servicios
 
 ```typescript
 // src/app/services/cat-facts.service.ts
@@ -145,6 +167,23 @@ export class CatFactsService {
   getRandomFact(): Observable<CatFact>
   getFacts(limit: number, page: number): Observable<CatFactsResponse>
   getBreeds(limit: number, page: number): Observable<CatBreedsResponse>
+}
+
+// src/app/services/cat-images.service.ts
+@Injectable({ providedIn: 'root' })
+export class CatImagesService {
+  private readonly apiUrl = 'https://api.thecatapi.com/v1/images/search';
+
+  getRandomImage(): Observable<string>
+  getMultipleImages(count: number): Observable<string[]>
+}
+
+// src/app/services/content-translation.service.ts
+@Injectable({ providedIn: 'root' })
+export class ContentTranslationService {
+  private readonly apiUrl = 'https://api.mymemory.translated.net/get';
+
+  translateContent(text: string): Observable<string>
 }
 ```
 
